@@ -1,4 +1,15 @@
 <h1>Welcome, {{user}} !</h1>
+ 
+    Check out the posts here!
+    <br>
+    
+    {% for obj in object_list %}
+    <li><a href="{% url 'detail' id=obj.id %}">{{ obj.title }}</a></li>
+
+
+
+{% endfor %}
 
 
 	<a href='../logout'>logout</a>
+	<a href="{% url 'create' %}">Create</a>

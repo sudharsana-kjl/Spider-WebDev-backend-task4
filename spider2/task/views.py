@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import (
 	authenticate, 
 	get_user_model, 
@@ -6,7 +6,8 @@ from django.contrib.auth import (
 	logout,
 
 	)
-from .forms import UserLoginForm, UserRegistrationForm
+from .forms import UserLoginForm, UserRegistrationForm, PostForm
+from .models import Post
 # Create your views here.
 def login_view(request):
 	print(request.user.is_authenticated())
@@ -16,7 +17,9 @@ def login_view(request):
 		password = form.cleaned_data.get("password")
 		user = authenticate(username=username, password=password)
 		login(request,user)
-		return render(request,"home.html",{'user':username})
+		queryset = Post.objects.all()
+
+		return render(request,"home.html",{'user':username,"object_list": queryset})
 		print(request.user.is_authenticated())
 	return render (request,"loginform.html",{'form':form})
 
@@ -37,3 +40,52 @@ def register_view(request):
 def logout_view(request):
 	logout(request)
 	return redirect('/task/login/')
+
+def post_create(request):
+	form = PostForm(request.POST or None)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.save()
+		queryset = Post.objects.all()
+		return render(request, "home.html", {"object_list": queryset})
+	
+	return render(request, "post_form.html", {"form": form})
+
+def post_detail(request, id=None):
+	instance = get_object_or_404(Post, id=id)
+	context = {
+		"title": instance.title,
+		"instance": instance,
+	}
+	return render(request, "post_detail.html", context)
+
+def post_update(request, id=None):
+	instance = get_object_or_404(Post, id=id)
+	form = PostForm(request.POST or None, instance=instance)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.save()
+		context = {
+		"title": instance.title,
+		"instance": instance,
+		}
+		return render(request, "post_detail.html", context)
+
+	context = {
+		"title": instance.title,
+		"instance": instance,
+		"form":form,
+	}
+	return render(request, "post_form.html", context)
+
+
+
+def post_delete(request, id=None):
+	instance = get_object_or_404(Post, id=id)
+	instance.delete()
+	queryset = Post.objects.all()
+
+	return render(request,"home.html",{"object_list": queryset})
+	
+	
+

@@ -1,0 +1,27 @@
+<!--DOCTYPE html -->
+<html>
+
+
+
+<body>
+
+
+
+
+<h1>{{ title }}</h1>
+
+
+
+{{ instance.content }}<br/>
+
+<a href="{% url 'update' id=instance.id %}">Update</a>
+<a href="{% url 'delete' id=instance.id %}">Delete</a>
+
+
+
+
+
+
+</body>
+
+</html>

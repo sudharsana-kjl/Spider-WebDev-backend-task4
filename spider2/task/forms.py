@@ -1,4 +1,5 @@
 from django import forms
+from .models import Post
 from django.contrib.auth import (authenticate, get_user_model, login, logout,)
 
 User = get_user_model()
@@ -48,3 +49,10 @@ class UserRegistrationForm(forms.ModelForm):
 		return password
 
 			#def clean_password(self):
+
+class PostForm(forms.ModelForm):
+	class Meta:
+		model = Post
+		fields = '__all__'
+
+		

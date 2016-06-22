@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^(?P<id>\d+)/edit/$', views.post_update, name='update'),
     url(r'^(?P<id>\d+)/delete/$', views.post_delete, name='delete'),
     
+    
 ]

@@ -1,4 +1,5 @@
 from django import forms
+from captcha.fields import CaptchaField
 from .models import Post
 from django.contrib.auth import (authenticate, get_user_model, login, logout,)
 
@@ -27,6 +28,7 @@ class UserRegistrationForm(forms.ModelForm):
 	username = forms.CharField()
 	password = forms.CharField(widget = forms.PasswordInput, label='Password')
 	pass2 = forms.CharField(widget = forms.PasswordInput, label = 'Confirm Password')
+	captcha = CaptchaField()
 	class Meta:
 		model = User
 		fields = [

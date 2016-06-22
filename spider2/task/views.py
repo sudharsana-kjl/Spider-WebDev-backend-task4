@@ -10,7 +10,7 @@ from .forms import UserLoginForm, UserRegistrationForm, PostForm
 from .models import Post
 # Create your views here.
 def login_view(request):
-	
+	print(request.user.is_authenticated())
 	form = UserLoginForm(request.POST or None)
 	if form.is_valid():
 		username = form.cleaned_data.get("username")
@@ -20,11 +20,11 @@ def login_view(request):
 		queryset = Post.objects.all()
 
 		return render(request,"home.html",{'user':username,"object_list": queryset})
-		
+		print(request.user.is_authenticated())
 	return render (request,"loginform.html",{'form':form})
 
 def register_view(request):
-	
+	print(request.user.is_authenticated())
 	form = UserRegistrationForm(request.POST or None)
 	if form.is_valid():
 		user = form.save(commit=False)

@@ -8,7 +8,7 @@ from django.contrib.auth import (
 	)
 from .forms import UserLoginForm, UserRegistrationForm, PostForm
 from .models import Post
-# Create your views here.
+
 def login_view(request):
 	print(request.user.is_authenticated())
 	form = UserLoginForm(request.POST or None)
